@@ -11,6 +11,10 @@ const verifyToken = require('../middlewares/auth.middleware');
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
+// forgot password 
+router.post('/send-otp', authController.sendOtp);
+router.post('/verify-otp', authController.verifyOtp);
+router.post('/reset-password', authController.resetPassword);
 
 // profile
 router.get('/profile', verifyToken, (req, res) => {
