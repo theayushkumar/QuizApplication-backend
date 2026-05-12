@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 
-const db = require('../cofig/db');
+const db = require('../config/db');
 const { sendOtpMail } = require('./mail.service');
 
 // signup service
