@@ -109,6 +109,7 @@ const getUsersService = async (filters) => {
         page_size,
         page_number,
         sorting_direction,
+        sorting_active_column,
         searchFilter
     } = filters;
 
@@ -123,10 +124,25 @@ const getUsersService = async (filters) => {
         const offset =
             (page - 1) * limit;
 
-        const sort =
-            sorting_direction === 'ASC'
+        const sortDirection =
+            sorting_direction === 'asc'
                 ? 'ASC'
                 : 'DESC';
+
+        // allowed columns
+
+        const allowedColumns = [
+            'id',
+            'name',
+            'email',
+            'role',
+            'created_at'
+        ];
+
+        const sortColumn =
+            allowedColumns.includes(sorting_active_column)
+                ? sorting_active_column
+                : 'id';
 
         const search =
             searchFilter || '';
@@ -163,8 +179,6 @@ const getUsersService = async (filters) => {
                 const totalRecords =
                     totalResult[0].total;
 
-                // get users
-
                 const query = `
                     SELECT
                         id,
@@ -182,7 +196,7 @@ const getUsersService = async (filters) => {
                         OR email LIKE ?
                         OR role LIKE ?
 
-                    ORDER BY id ${sort}
+                    ORDER BY ${sortColumn} ${sortDirection}
 
                     LIMIT ?
                     OFFSET ?
@@ -210,14 +224,9 @@ const getUsersService = async (filters) => {
 
                         return resolve({
                             success: true,
-
-                            total_records:
-                                totalRecords,
-
+                            total_records: totalRecords,
                             page_number: page,
-
                             page_size: limit,
-
                             data: result
                         });
 
