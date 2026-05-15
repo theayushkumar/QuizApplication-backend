@@ -5,18 +5,18 @@ const db = require('../config/db');
 
 const createCategoryService = async (categoryData) => {
 
-    const { name, description } = categoryData;
+    const { name, description, is_active } = categoryData;
 
     return new Promise((resolve, reject) => {
 
         const insertQuery = `
-            INSERT INTO categories (category_name, description)
-            VALUES (?, ?)
+            INSERT INTO categories (category_name, description,is_active)
+            VALUES (?, ?, ?)
         `;
 
         db.query(
             insertQuery,
-            [name, description],
+            [name, description, is_active],
             (error, result) => {
 
                 if (error) {
@@ -116,19 +116,19 @@ const getCategoryByIdService = async (id) => {
 
 const updateCategoryService = async (id, categoryData) => {
 
-    const { category_name, description } = categoryData;
+    const { category_name, description, is_active } = categoryData;
 
     return new Promise((resolve, reject) => {
 
         const query = `
             UPDATE categories
-            SET category_name = ?, description = ?
+            SET category_name = ?, description = ?, is_active = ?
             WHERE id = ?
         `;
 
         db.query(
             query,
-            [category_name, description, id],
+            [category_name, description, is_active, id],
             (error, result) => {
 
                 if (error) {
