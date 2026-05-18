@@ -9,7 +9,8 @@ const createQuizService = async (quizData) => {
         category_id,
         title,
         description,
-        duration_minutes
+        duration_minutes,
+        is_active
     } = quizData;
 
     return new Promise((resolve, reject) => {
@@ -20,9 +21,10 @@ const createQuizService = async (quizData) => {
                 category_id,
                 title,
                 description,
-                duration_minutes
+                duration_minutes,
+                is_active
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         `;
 
         db.query(
@@ -31,7 +33,8 @@ const createQuizService = async (quizData) => {
                 category_id,
                 title,
                 description,
-                duration_minutes
+                duration_minutes,
+                is_active
             ],
             (error, result) => {
 
@@ -240,10 +243,62 @@ const deleteQuizService = async (id) => {
 };
 
 
+
+
+// get quizzes by category id
+
+const getQuizzesByCategoryIdService = async (category_id) => {
+
+    return new Promise((resolve, reject) => {
+
+        const sql = `
+            SELECT 
+                id,
+                category_id,
+                title,
+                description,
+                duration_minutes,
+                is_active,
+                created_at
+            FROM quiz_list
+            WHERE category_id = ?
+            AND is_active = 1
+            ORDER BY id DESC
+        `;
+
+        db.query(
+            sql,
+            [category_id],
+            (error, results) => {
+
+                if (error) {
+
+                    return reject({
+                        status: 500,
+                        message: error.message
+                    });
+
+                }
+
+                return resolve({
+                    success: true,
+                    message: 'Quiz list fetched successfully',
+                    data: results
+                });
+
+            }
+        );
+
+    });
+
+};
+
+
 module.exports = {
     createQuizService,
     getQuizzesService,
     getQuizByIdService,
     updateQuizService,
-    deleteQuizService
+    deleteQuizService,
+    getQuizzesByCategoryIdService
 };

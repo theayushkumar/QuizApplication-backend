@@ -56,5 +56,13 @@ router.delete(
     quizController.deleteQuiz
 );
 
+// get quizzes by category id
+
+router.get(
+    '/category/:category_id',
+    verifyToken,
+    quizController.getQuizzesByCategoryId
+);
+
 
 module.exports = router;

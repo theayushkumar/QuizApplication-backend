@@ -4,8 +4,8 @@ const {
     getQuizzesService,
     getQuizByIdService,
     updateQuizService,
-    deleteQuizService
-
+    deleteQuizService,
+    getQuizzesByCategoryIdService
 } = require('../services/quiz.service');
 
 
@@ -50,6 +50,30 @@ const getQuizzes = async (req, res) => {
     try {
 
         const result = await getQuizzesService();
+
+        return res.status(200).json(result);
+
+    } catch (error) {
+
+        return res.status(error.status || 500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
+
+// get quizzes by category id
+
+const getQuizzesByCategoryId = async (req, res) => {
+
+    try {
+
+        const result = await getQuizzesByCategoryIdService(
+            req.params.category_id
+        );
 
         return res.status(200).json(result);
 
@@ -146,5 +170,6 @@ module.exports = {
     getQuizzes,
     getQuizById,
     updateQuiz,
-    deleteQuiz
+    deleteQuiz,
+    getQuizzesByCategoryId
 };
