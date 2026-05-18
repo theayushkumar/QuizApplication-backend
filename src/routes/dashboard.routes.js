@@ -42,4 +42,14 @@ router.get(
 );
 
 
+// result and history 
+
+router.get(
+    '/user-performance',
+    verifyToken,
+    isAdmin,
+    dashboardController.getUserPerformance
+);
+
+
 module.exports = router;

@@ -2,7 +2,8 @@ const {
 
     getDashboardStatsService,
     getCategoryAttemptsService,
-    getResultDistributionService
+    getResultDistributionService,
+    getUserPerformanceService
 
 } = require('../services/dashboard.service');
 
@@ -93,8 +94,30 @@ const getResultDistribution = async (
 };
 
 
+// get user performance and history for admin
+const getUserPerformance = async (req, res) => {
+    try {
+
+        const data = await getUserPerformanceService();
+
+        return res.status(200).json({
+            success: true,
+            data
+        });
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+};
+
 module.exports = {
     getDashboardStats,
     getCategoryAttempts,
-    getResultDistribution
+    getResultDistribution,
+    getUserPerformance
 };
