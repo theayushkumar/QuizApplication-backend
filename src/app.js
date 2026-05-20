@@ -24,13 +24,14 @@ app.get('/', (req, res) => {
     });
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/quizzes', quizRoutes);
-app.use('/api/questions', questionRoutes);
-app.use('/api/user', attemptRoutes);
-app.use('/api/admin/users', userRoutes);
-app.use('/api/admin/dashboard', dashboardRoutes);
-app.use('/api/user/dashboard', userDashboardRoutes);
+
+app.use('/api/auth', authRoutes); // for login , signup, forgot
+app.use('/api/categories', categoryRoutes); // for category crud
+app.use('/api/quizzes', quizRoutes); // for quizz list (sub category) crud
+app.use('/api/questions', questionRoutes); // for question crud
+app.use('/api/admin/users', userRoutes); // for user crud
+app.use('/api/user', attemptRoutes); // for user attempts data
+app.use('/api/admin/dashboard', dashboardRoutes); // admin dashboard stats
+app.use('/api/user/dashboard', userDashboardRoutes); // user dashboard stats
 
 module.exports = app;
