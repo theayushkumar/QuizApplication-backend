@@ -103,6 +103,14 @@ const loginService = async (loginData) => {
 
             const user = userResult[0];
 
+            // check user active status
+            if (user.is_active !== 1) {
+                return reject({
+                    status: 403,
+                    message: 'your account is inactive. please contact admin'
+                });
+            }
+
             const isPasswordMatch = await bcrypt.compare(
                 password,
                 user.password
@@ -135,7 +143,8 @@ const loginService = async (loginData) => {
                     id: user.id,
                     name: user.name,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    is_active: user.is_active
                 }
             });
 
